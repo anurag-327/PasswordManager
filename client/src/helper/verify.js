@@ -78,3 +78,4 @@ export function verifyEmail(email)
         return true;
     }
 }
+

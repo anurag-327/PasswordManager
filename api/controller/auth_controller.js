@@ -5,7 +5,7 @@ const jwt=require("jsonwebtoken")
 // Controller for register
 module.exports.register=async(req,res) => 
 {
-    const {username,email,password}=req.body;
+    const {username,email,password,profile}=req.body;
     try{
         const user= await User.findOne({email:email});
         if(user)
@@ -17,7 +17,8 @@ module.exports.register=async(req,res) =>
             const newuser= new User({
                 username:username,
                 email:email,
-                password:CryptoJS.AES.encrypt(password,process.env.CRYPTOJS_SEC_KEY).toString()
+                password:CryptoJS.AES.encrypt(password,process.env.CRYPTOJS_SEC_KEY).toString(),
+                profile:profile || ''
             })
             const result=await newuser.save();
             if(result)
@@ -76,6 +77,7 @@ module.exports.validate=async(req,res) =>
         return res.status(500).json(err.message);
     }
 }
+
 
 const tokengenerator = (_id) =>
 {

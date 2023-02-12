@@ -1,27 +1,93 @@
 import { useFormik } from 'formik';
-import React,{useState} from 'react' 
+import React,{useEffect, useState} from 'react' 
 import { Toaster } from 'react-hot-toast';
 import avatar from "../assets/avatar.png"
+import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast'
 import { valiateLogin,validateSignup } from '../helper/validate';
+import { setToBase64 } from '../helper/profileImageHandler';
+import { getToken ,setToken} from '../helper/tokenHandler';
+import { Eye } from 'phosphor-react';
 function Home()
 {
+    const navigate=useNavigate();
+    const [profile,setProfile]=useState()
     const [login,setlogin]=useState(true);
-    function handlelogin(e)
+    const [toggleEye,setToggleEye]=useState(false)
+    async function handlelogin(e)
     {
         const data=new FormData(e.target);
         let {username,password}=Object.fromEntries(data.entries());
-        valiateLogin(username,password)
+        if(valiateLogin(username,password)===true)
+        {
+            let options={
+                method:"POST",
+                headers:{
+                    "content-type":"application/json"
+                },
+                body:JSON.stringify({username:username,password:password})
+            }
+            const response=await fetch("http://localhost:5000/api/auth/login",options);
+            const data= await response.json();
+            if(response.status===200 && data)
+            {
+                setToken(data.token)
+                toast.success("Login successfull"); 
+                navigate("/home")
+            }
+            else
+            {
+                toast.error(`${data.message}`)
+                navigate("/")
+            }
+        }
     }
 
-    function handlesignup(e)
+    async function handlesignup(e)
     {
+        console.log(profile)
         const data=new FormData(e.target);
         const {username,email,password,confirmpassword}=Object.fromEntries(data.entries());
-        validateSignup(username,email,password,confirmpassword);
+        if(validateSignup(username,email,password,confirmpassword,profile)===true)
+        {
+            let options={
+                method:"POST",
+                headers:{
+                    "content-type":"application/json"
+                },
+                body:JSON.stringify({username:username,email:email,password:password,profile:profile})
+            }
+            const response=await fetch("http://localhost:5000/api/auth/register",options);
+            const data= await response.json();
+            if(response.status===201 && data)
+            {
+                setToken(data.token)
+                toast.success("Registration successfull");
+                navigate("/home");
+            }
+            else
+            {
+                toast.error(`${data.message}`)
+                navigate("/")
+            }
+        }
     }
+    async function uploadprofile(e)
+    {
+        const base64=await setToBase64(e.target.files[0])
+        setProfile(base64)    
+    }
+
+    useEffect(()=>
+    {
+        if(getToken())
+        {
+            navigate("/home");
+        }
+
+    },[])
     return(
-        <div className=" m-auto mt-24  w-[25%] font-poppins  border min-w-[350px]   bg-gray-200 rounded-2xl ">
+        <div className={` m-auto   ${login?"w-[25%] mt-20":"w-[30%] mt-10"} font-poppins  border min-w-[350px]   bg-gray-200 rounded-2xl `}>
             <Toaster position='top-center' reverseOrder />
         <div className="m-auto shadow-md  rounded-2xl flex flex-col p-4  gap-6">
             <div className="text-center font-bold text-4xl ">
@@ -41,14 +107,15 @@ function Home()
                     <img className='w-[150px] border border-gray-800 rounded-full m-auto h-auto' src={avatar} alt="profile"/>
                 </div>
                 <div> 
-                    <input type="text"  className="username border-2 w-full rounded-md p-1 border-gray-400 hover:border-orange-400 outline-none" name="username" placeholder="Username"/>
+                    <input type="text" autoComplete='off' autoCorrect='off'  className="username border-2 w-full rounded-md p-2  outline-none" name="username" placeholder="Username"/>
                 </div>
-                <div>
-                    <input type="password"  className="passwordfield border-2 w-full rounded-md p-1 border-gray-400 hover:border-orange-400 hover:resize-none outline-none" name="password" placeholder="password"/>
+                <div className='flex items-center bg-white rounded-md border-2'>
+                    <input type={toggleEye?("text"):("password")} autoComplete='off' autoCorrect='off'  className="passwordfield  w-[93%] rounded-md p-2  hover:resize-none outline-none " name="password" placeholder="password"/>
+                    <Eye  className="cursor-pointer " size={20} onClick={() => setToggleEye(!toggleEye)} color="#000000"/>
                 </div>
                 <div className="checkboxfield">
                     <input type="checkbox" className="" />
-                    <label className="">Remember Me</label>
+                    <label className=" ml-1">Remember Me</label>
                 </div>
                 <div className="text-center  rounded-lg text-white p-1">  
                     <button className="signupbutton w-full block  p-2 bg-blue-700 rounded-md">Login</button>
@@ -60,19 +127,23 @@ function Home()
             </form>):(  <form onSubmit={(e)=>{e.preventDefault(); handlesignup(e)}} method="post">
             <div className="flex flex-col gap-3 w-full signupsection  ">
                 <div>
-                    <img className='w-[120px] border border-gray-800 rounded-full m-auto h-auto' src={avatar} alt="profile"/>
+                    <label htmlFor='profile'>
+                         <img  src={profile || avatar }  className='w-[120px] object-cover border cursor-pointer border-gray-800 rounded-full m-auto h-auto' alt="profile"/>
+                    </label>
+                    <input onChange={uploadprofile} className='hidden' id="profile" name="profile" type="file"></input>
                 </div>
                 <div> 
-                    <input type="text"  className="namefield  border-2 w-full rounded-md p-1 border-gray-400 hover:border-orange-400  outline-none" name="username" placeholder="Name"/>
+                    <input type="text" autoCorrect='off'  className="namefield  border-2 w-full rounded-md p-2 outline-none" name="username" placeholder="Name"/>
                 </div>
                 <div> 
-                    <input type="text"  className="emailfield border-2 w-full rounded-md p-1 border-gray-400 hover:border-orange-400 outline-none" name="email" placeholder="Email Address"/>
+                    <input type="text" autoCorrect='off'   className="emailfield border-2 w-full rounded-md p-2  outline-none" name="email" placeholder="Email Address"/>
+                </div>
+                <div className='flex items-center bg-white rounded-md border-2'>
+                    <input type={toggleEye?("text"):("password")} autoComplete='off' autoCorrect='off'  className="passwordfield  w-[93%] rounded-md p-2  hover:resize-none outline-none " name="password" placeholder="password"/>
+                    <Eye  className="cursor-pointer " size={20} onClick={() => setToggleEye(!toggleEye)} color="#000000"/>
                 </div>
                 <div>
-                    <input type="password"  className="passwordfield border-2 w-full rounded-md p-1 border-gray-400 hover:border-orange-400 hover:resize-none outline-none" name="password" placeholder="password"/>
-                </div>
-                <div>
-                    <input type="password"  className="confirmpasswordfield border-2 w-full  rounded-md p-1 border-gray-400 hover:border-orange-400 hover:resize-none outline-none" name="confirmpassword" placeholder="confirm password"/>
+                    <input type="password" autoCorrect='off'  className="confirmpasswordfield border-2 w-full  rounded-md p-2  hover:resize-none outline-none" name="confirmpassword" placeholder="confirm password"/>
                 </div>
                 <div className="checkboxfield">
                     <input type="checkbox" className="" />
