@@ -70,7 +70,7 @@ function Dashboard()
                  <Vault  size={44} color="#000000" />
                  <h2 className=' text-center font-semibold'>My Passwords</h2>
             </button>
-            <Link to="/#" onClick={() => toast.error("Feature Coming Sonn")} className='w-[180px] sm:w-[80%] sm:h-[80px] sm:min-w-[100px] h-[190px] p-2 flex flex-col  gap-2 justify-center items-center aspect-auto hover:scale-105 transform transition duration-500 bg-gradient-to-r from-blue-100 rounded-2xl to-blue-200'>
+            <Link to="/#" onClick={() => toast.error("Feature Coming Soon")} className='w-[180px] sm:w-[80%] sm:h-[80px] sm:min-w-[100px] h-[190px] p-2 flex flex-col  gap-2 justify-center items-center aspect-auto hover:scale-105 transform transition duration-500 bg-gradient-to-r from-blue-100 rounded-2xl to-blue-200'>
                  <Password size={44} color="#000000" />
                  <h2 className=' text-center font-semibold'>Test your password</h2>
             </Link>

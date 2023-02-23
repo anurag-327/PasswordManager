@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "formik": "^2.2.9",
+    "generate-password": "^1.7.0",
     "localstorage-slim": "^2.4.0",
     "phosphor-react": "^1.4.1",
     "react": "^18.2.0",

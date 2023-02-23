@@ -33,7 +33,7 @@ function Sidebar()
         {/* <button onClick={() => setCurrentPage("dashboard")} className='rounded-lg shadow-md hover:text-blue-800 font-semibold bg-gray-200 p-2 '> <GearSix className="inline-block mr-2" size={20} color="#000000" />Settings</button> */}
       </div>
       <div className=' mt-28 flex flex-col'>
-        <Link to="#" onClick={() => toast.error("Feature Coming Sonn")} className='rounded-lg shadow-2xl  font-semibold text-white bg-gray-800 p-2 '><Lock className="inline-block mr-2" size={20} color="#f3eded" />Generate Password</Link>
+        <Link to="#" onClick={() => toast.error("Feature Coming Soon")} className='rounded-lg shadow-2xl  font-semibold text-white bg-gray-800 p-2 '><Lock className="inline-block mr-2" size={20} color="#f3eded" />Generate Password</Link>
       </div>
       <div className='mt-5 flex mx-auto'>
         <button onClick={() => {removeToken(); navigate("/")}} className=' font-semibold text-blue-700 m-auto'>Log Out</button>

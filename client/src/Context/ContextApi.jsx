@@ -37,5 +37,8 @@ export default function ContextProvider({children})
        
 
     },[])
+    useEffect(() =>{
+        
+    },[user])
     return(<UserContext.Provider value={{user,currentPage,setCurrentPage,passwords,setPasswords}}>{children}</UserContext.Provider>)
 }
