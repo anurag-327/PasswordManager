@@ -48,7 +48,7 @@ function Home()
 
     async function handlesignup(e)
     {
-        console.log(profile)
+        
         const data=new FormData(e.target);
         const {username,email,password,confirmpassword}=Object.fromEntries(data.entries());
         if(validateSignup(username,email,password,confirmpassword,profile)===true)
