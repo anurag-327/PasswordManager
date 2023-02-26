@@ -12,7 +12,6 @@ import {BASE_URL} from "../base.js"
 function Home()
 {
     // console.log(import.meta.)
-    console.log(BASE_URL)
     const navigate=useNavigate();
     const [profile,setProfile]=useState()
     const [login,setlogin]=useState(true);
