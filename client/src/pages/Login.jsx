@@ -8,8 +8,11 @@ import { valiateLogin,validateSignup } from '../helper/validate';
 import { setToBase64 } from '../helper/profileImageHandler';
 import { getToken ,setToken} from '../helper/tokenHandler';
 import { Eye } from 'phosphor-react';
+import {BASE_URL} from "../base.js"
 function Home()
 {
+    // console.log(import.meta.)
+    console.log(BASE_URL)
     const navigate=useNavigate();
     const [profile,setProfile]=useState()
     const [login,setlogin]=useState(true);
@@ -27,10 +30,11 @@ function Home()
                 },
                 body:JSON.stringify({username:username,password:password})
             }
-            const response=await fetch("http://localhost:5000/api/auth/login",options);
+            const response=await fetch(`${BASE_URL}/api/auth/login`,options);
             const data= await response.json();
             if(response.status===200 && data)
             {
+                // console.log(data.token)
                 setToken(data.token)
                 toast.success("Login successfull"); 
                 navigate("/home")
@@ -57,7 +61,7 @@ function Home()
                 },
                 body:JSON.stringify({username:username,email:email,password:password,profile:profile})
             }
-            const response=await fetch("http://localhost:5000/api/auth/register",options);
+            const response=await fetch(`${BASE_URL}/api/auth/register`,options);
             const data= await response.json();
             if(response.status===201 && data)
             {
@@ -87,7 +91,7 @@ function Home()
 
     },[])
     return(
-        <div className={` m-auto   ${login?"w-[25%] mt-20":"w-[30%] mt-10"} font-poppins  border min-w-[350px]   bg-gray-200 rounded-2xl `}>
+        <div className={` m-auto   ${login?"w-[25%] mt-20":"w-[30%] mt-10"} sm:w-[90%] font-poppins  border min-w-[350px]   bg-gray-200 rounded-2xl `}>
             <Toaster position='top-center' reverseOrder />
         <div className="m-auto shadow-md  rounded-2xl flex flex-col p-4  gap-6">
             <div className="text-center font-bold text-4xl ">

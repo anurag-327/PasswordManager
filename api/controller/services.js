@@ -70,7 +70,7 @@ module.exports.getCredentials= async(req,res) =>
             return res.status(200).json(credentialsarray);
         }
         else
-        return res.status(404).json({status:400,message:"password do not exist"})
+        return res.status(200).json({status:400,message:"passwords do not exist"})
     }catch(err)
     {
         return res.status(500).json({status:500,message:err.message})

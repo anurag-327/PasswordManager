@@ -5,6 +5,7 @@ import { UserContext } from '../Context/ContextApi'
 import { addcredential } from '../helper/addcredential'
 import { Toaster } from 'react-hot-toast';
 import  toast  from 'react-hot-toast'
+import {BASE_URL} from "../base"
 function Dashboard()
 {
     const {user,currentPage,setCurrentPage,passwords,setPasswords}=useContext(UserContext)
@@ -26,7 +27,7 @@ function Dashboard()
                 },
                 body:JSON.stringify({title,username,password})
             }
-            const response=await fetch("http://localhost:5000/api/services/addcredential",options);
+            const response=await fetch(`${BASE_URL}/api/services/addcredential`,options);
             const newpass= await response.json();
             
             if(response.status===200)

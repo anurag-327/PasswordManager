@@ -19,11 +19,9 @@ function Home()
         navigate("/");
       }
     },[user])
-    useEffect(()=>
-    {
-
-    },[user])
+   
     return(
+      
       <> 
       {
         user!=undefined ?(<div className='flex sm:flex-col relative gap-10 sm:p-0 p-10'>    

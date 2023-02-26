@@ -3,6 +3,7 @@ import { UserContext } from '../Context/ContextApi'
 import { Eye,X,EyeSlash } from 'phosphor-react'
 import {toast} from 'react-hot-toast'
 import { Toaster } from 'react-hot-toast';
+import {BASE_URL} from "../base"
 function SinglePassword({item})
 {
     const {user,passwords,setPasswords}=useContext(UserContext)
@@ -18,7 +19,7 @@ function SinglePassword({item})
                 "authorization":`Bearer ${user.token}`
             }
         }
-        const response=await fetch(`http://localhost:5000/api/services/deletecredential/${_id}`,options);
+        const response=await fetch(`${BASE_URL}/api/services/deletecredential/${_id}`,options);
         const newcred= await response.json();
         if(response.status===200)
         {
@@ -40,7 +41,7 @@ function SinglePassword({item})
                     authorization:`Bearer ${user.token}`
                 },body:JSON.stringify({password:currentPassword})
             }
-            const decrypt=await fetch(`http://localhost:5000/api/services/decrypt`,options2);
+            const decrypt=await fetch(`${BASE_URL}/api/services/decrypt`,options2);
             const decryptedpassword= await decrypt.json();
             if(decrypt.status===200)
             {

@@ -4,6 +4,7 @@ import SinglePassword from './SinglePassword'
 import { UserContext } from '../Context/ContextApi'
 import  toast  from 'react-hot-toast'
 import { Toaster } from 'react-hot-toast'
+import {BASE_URL} from "../base"
 function PasswordPage()
 {
     const {user,currentPage,setCurrentPage,passwords,setPasswords}=useContext(UserContext);
@@ -22,7 +23,7 @@ function PasswordPage()
             },
             body:JSON.stringify({password})
         }
-        const response=await fetch("http://localhost:5000/api/auth/validate",options)
+        const response=await fetch(`${BASE_URL}/api/auth/validate`,options)
         const status= await response.json();
         if(response.status===200)
         {

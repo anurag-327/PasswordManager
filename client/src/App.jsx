@@ -3,7 +3,7 @@ import './App.css'
 import Login from './pages/Login'
 import Home from "./pages/Home"
 import TestPassword from "./components/TestPassword.jsx"
-
+import ContextProvider from "./Context/ContextApi"
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
 import PasswordGenerator from './components/PasswordGenerator'
 function App() {
@@ -14,7 +14,7 @@ function App() {
     },
     {
       path:"/home",
-      element:<Home />
+      element:<ContextProvider><Home /></ContextProvider>
     },
     {
       path:"/testpassword",
@@ -27,7 +27,7 @@ function App() {
   ])
   return (
     <>
-    <RouterProvider router={router} />
+        <RouterProvider router={router} />
     </>
   )
 }
