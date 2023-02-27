@@ -1,6 +1,6 @@
 # PasswordManager
 - Frontend-React Js
-- Backend-Express Js,socket.io
+- Backend-Express Js, Node js
 - Database-Mongo DB
 - Libraries Used- react-hot-toast, react-spinner, phosphor-react, phosphor-react
 ### steps to run code  
