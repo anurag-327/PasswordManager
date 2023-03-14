@@ -41,13 +41,13 @@ function Dashboard()
     }
     return(
     <>
-        <div className='w-[75%] sm:w-full  flex flex-col  overflow-hidden overflow-x-hidden gap-10 border sm:border-none rounded-tr-[4rem] p-8'>
+        <div className='w-[75%] sm:w-full  flex flex-col  overflow-hidden overflow-x-hidden gap- border sm:border-none rounded-tr-[4rem] '>
         <Toaster position='top-center' reverseOrder />
         <div className=''>
-            <h2 className=' font-bold text-3xl text-center sm:text-white'>DashBoard</h2>
+            <h2 className=' font-bold text-3xl text-center'>DashBoard</h2>
         </div>
         <div className='flex sm:flex-col mt-5 flex-wrap md:flex-row  2xl:flex-row xl:flex-row justify-center w-full items-center   gap-10 m-auto'>
-            <button onClick={() => {setAddPasswordBox(!addPasswordBox);setOpenVerification(true)}} className='w-[180px] sm:w-[80%] sm:h-[80px] sm:min-w-[100px]  h-[190px] p-2 flex flex-col gap-2 justify-center items-center aspect-auto hover:scale-105 transform transition duration-500 bg-gradient-to-r from-gray-300 rounded-2xl to-green-300'>
+            <button onClick={() => {setAddPasswordBox(!addPasswordBox);setOpenVerification(true)}} className='w-[180px] sm:max-w-[400px] sm:w-[80%] sm:h-[140px] sm:min-w-[100px]  h-[190px] p-2 flex flex-col gap-2 justify-center items-center aspect-auto hover:scale-105 transform transition duration-500 bg-gradient-to-r from-gray-300 rounded-2xl to-green-300'>
                  <LockKeyOpen className='' size={44} color="#000000" />
                  <h2 className=' text-center font-semibold'>Add a New Password</h2>
             </button>
@@ -67,11 +67,11 @@ function Dashboard()
             </form>
         </div>)
         }
-            <button onClick={() => setCurrentPage("password")} className='w-[180px] sm:w-[80%] sm:min-w-[100px] sm:h-[80px] h-[190px] p-2 flex flex-col gap-2 justify-center items-center aspect-auto hover:scale-105 transform transition duration-500 bg-gradient-to-r from-blue-100 rounded-2xl to-blue-200'>
+            <button onClick={() => setCurrentPage("password")} className='w-[180px] sm:w-[80%] sm:max-w-[400px] sm:min-w-[100px] sm:h-[140px] h-[190px] p-2 flex flex-col gap-2 justify-center items-center aspect-auto hover:scale-105 transform transition duration-500 bg-gradient-to-r from-blue-100 rounded-2xl to-blue-200'>
                  <Vault  size={44} color="#000000" />
                  <h2 className=' text-center font-semibold'>My Passwords</h2>
             </button>
-            <Link to="/#" onClick={() => toast.error("Feature Coming Soon")} className='w-[180px] sm:w-[80%] sm:h-[80px] sm:min-w-[100px] h-[190px] p-2 flex flex-col  gap-2 justify-center items-center aspect-auto hover:scale-105 transform transition duration-500 bg-gradient-to-r from-blue-100 rounded-2xl to-blue-200'>
+            <Link to="/#" onClick={() => toast.error("Feature Coming Soon")} className='w-[180px] sm:max-w-[400px] sm:w-[80%] sm:h-[140px] sm:min-w-[100px] h-[190px] p-2 flex flex-col  gap-2 justify-center items-center aspect-auto hover:scale-105 transform transition duration-500 bg-gradient-to-r from-blue-100 rounded-2xl to-blue-200'>
                  <Password size={44} color="#000000" />
                  <h2 className=' text-center font-semibold'>Test your password</h2>
             </Link>

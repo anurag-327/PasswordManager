@@ -2,26 +2,48 @@ import { useFormik } from 'formik';
 import React,{useEffect, useState} from 'react' 
 import { Toaster } from 'react-hot-toast';
 import avatar from "../assets/avatar.png"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast'
 import { valiateLogin,validateSignup } from '../helper/validate';
 import { setToBase64 } from '../helper/profileImageHandler';
 import { getToken ,setToken} from '../helper/tokenHandler';
 import { Eye } from 'phosphor-react';
 import {BASE_URL} from "../base.js"
+import Loader from "../components/Loader"
 function Home()
 {
+    // const [searchParams]=useSearchParams();
+    // let status,token;
+    // for (const entry of searchParams.entries()) {
+    //   const [param, value] = entry;
+    //   if(param==="status")
+    //   status=value;
+    //   if(param==="token")
+    //   token=value
+    // }
+    // const url=window.location.href;
+    // console.log(url)
+    // useEffect(() =>
+    // {
+    //      if(status==="true" && token!=undefined)
+    //      {
+    //         console.log(status,token)
+    //      }
+    // },[])
+
     // console.log(import.meta.)
     const navigate=useNavigate();
     const [profile,setProfile]=useState()
     const [login,setlogin]=useState(true);
     const [toggleEye,setToggleEye]=useState(false)
+    const [loading,setLoading]=useState(false)
     async function handlelogin(e)
     {
         const data=new FormData(e.target);
         let {username,password}=Object.fromEntries(data.entries());
         if(valiateLogin(username,password)===true)
         {
+            setLoading(true);
             let options={
                 method:"POST",
                 headers:{
@@ -34,12 +56,14 @@ function Home()
             if(response.status===200 && data)
             {
                 // console.log(data.token)
+                setLoading(false);
                 setToken(data.token)
                 toast.success("Login successfull"); 
                 navigate("/home")
             }
             else
             {
+                setLoading(false)
                 toast.error(`${data.message}`)
                 navigate("/")
             }
@@ -53,6 +77,7 @@ function Home()
         const {username,email,password,confirmpassword}=Object.fromEntries(data.entries());
         if(validateSignup(username,email,password,confirmpassword,profile)===true)
         {
+            setLoading(true);
             let options={
                 method:"POST",
                 headers:{
@@ -64,6 +89,7 @@ function Home()
             const data= await response.json();
             if(response.status===201 && data)
             {
+                setLoading(false)
                 setToken(data.token)
                 toast.success("Registration successfull");
                 navigate("/home");
@@ -90,9 +116,9 @@ function Home()
 
     },[])
     return(
-        <div className={` m-auto   ${login?"w-[25%] mt-20":"w-[30%] mt-10"} sm:w-[90%] font-poppins  border min-w-[350px]   bg-gray-200 rounded-2xl `}>
+        <div className={`   ${login?"w-full mt-0":"w-full mt-0"} h-screen flex  flex-col justify-center items-center  font-poppins  border  sm:bg-white sm:w-full    bg-gray-200 rounded-2xl `}>
             <Toaster position='top-center' reverseOrder />
-        <div className="m-auto shadow-md  rounded-2xl flex flex-col p-4  gap-6">
+        <div className="m-auto shadow-md sm:shadow-none w-[400px]  rounded-2xl  flex flex-col p-4  gap-6">
             <div className="text-center font-bold text-4xl ">
                 {
                     login?( <h2 className="loginheader"> Login</h2>):(<h2 className=" signupheader text-blue-600">REGISTER</h2> )
@@ -121,11 +147,17 @@ function Home()
                     <label className=" ml-1">Remember Me</label>
                 </div>
                 <div className="text-center  rounded-lg text-white p-1">  
-                    <button className="signupbutton w-full block  p-2 bg-blue-700 rounded-md">Login</button>
+                    {
+                        loading?( <Loader />):(<button className="signupbutton w-full block  p-2 bg-blue-700 rounded-md">Login</button>)
+                    }    
                 </div>
                 <div id="loginfooter" className=" text-center mt-4 ">
                     <span className="msg">Not a member? <button onClick={() => setlogin(false)}  className=" signupswitchlink gignupbutton text-blue-500 underline">Register here</button></span>
                 </div>
+                {/* <div className='text-center m-auto'>
+                    <h2 className='font-semibold text-lg'>OR</h2>
+                    <a className='w-full block  text-white p-2 bg-orange-400 rounded-md' href={`${import.meta.env.VITE_APP_QUICKSIGN_URL}/auth?state=${import.meta.env.VITE_APP_QUICKSIGN_KEY}&redirect_url=${url}`} target="blank">Sign In with QuickSign</a>
+                </div> */}
             </div>
             </form>):(  <form onSubmit={(e)=>{e.preventDefault(); handlesignup(e)}} method="post">
             <div className="flex flex-col gap-3 w-full signupsection  ">
@@ -153,7 +185,9 @@ function Home()
                     <label className="text-blue-500 cursor-pointer">I accept Terms and Conditions</label>
                 </div>
                 <div className="text-center  rounded-lg text-white mt-2 p-1">  
-                        <button className="signupbutton w-full block  p-2 bg-blue-700 rounded-md">REGISTER</button>
+                {
+                    loading?(<Loader />):(<button className="signupbutton w-full block  p-2 bg-blue-700 rounded-md">REGISTER</button>)
+                }         
                 </div>
                 <div id="loginfooter" className=" text-center mt-4 ">
                     <span className="msg">Already a member ? <button onClick={() => setlogin(true)}  className=" signupswitchlink gignupbutton text-blue-500 underline">Login</button></span>

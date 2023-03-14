@@ -5,16 +5,19 @@ import { UserContext } from '../Context/ContextApi'
 import  toast  from 'react-hot-toast'
 import { Toaster } from 'react-hot-toast'
 import {BASE_URL} from "../base"
+import Loader from './Loader'
 function PasswordPage()
 {
     const {user,currentPage,setCurrentPage,passwords,setPasswords}=useContext(UserContext);
     const [globalverification,setGlobalVerification]=useState(false)
     const [openVerification,setOpenVerification]=useState(true)
+    const [loading,setLoading]=useState(false);
     async function handleverification(e)
     {
         
         const data= new FormData(e.target);
         const {password}=Object.fromEntries(data.entries());
+        setLoading(true);
         let options={
             method:"POST",
             headers:{
@@ -27,6 +30,7 @@ function PasswordPage()
         const status= await response.json();
         if(response.status===200)
         {
+            setLoading(false)
             toast.success("Verified....")
             // setVerificationStatus(true)
             setOpenVerification(false)
@@ -37,6 +41,7 @@ function PasswordPage()
         }
         else
         {
+            setLoading(false)
             toast.error("Server Error Retry")
         }
     }
@@ -52,12 +57,15 @@ function PasswordPage()
                 <button className=' absolute right-[40px] top-[30px] font-bold' onClick={() => {setOpenVerification(false); setCurrentPage("dashboard")}}><X  size={44} color="#ffffff" /></button>
             </div>
                 <form onSubmit={(e) => { e.preventDefault();handleverification(e)}} method="POST" className=' w-[300px]  rounded-md bg-white absolute sm:top-[50%] top-[40%] bottom-30%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex flex-col gap-3  p-3'>
-                    <input autoComplete='off' autoCorrect='off' type="password" name="password" className='p-2 bg-gray-100 rounded-md border-2 outline-none  border-red-600' placeholder='password' />
-                    <button className='bg-blue-600 text-white rounded-md p-2'>Verify</button>
+                    <input autoComplete='off' required autoCorrect='off' type="password" name="password" className='p-2 bg-gray-100 rounded-md border-2 outline-none  border-red-600' placeholder='password' />
+                    {
+                        loading?(<div className='flex justify-center items-center'><Loader  /></div>):( <button className='bg-blue-600 text-white rounded-md p-2'>Verify</button>)
+                    }
+                   
                     <h2 className=' text-center text-red-600'>! Password Verification is required to access your passwords</h2>
                 </form>
-        </div>):(<div className='w-[75%] sm:w-[100%] sm:rounded-none sm:border-0  flex flex-col overflow-auto  gap-10 border-2 rounded-tr-[4rem] sm:p-6 p-4'>
-        <button onClick={()=> setCurrentPage("dashboard")} className='hidden sm:block font-bold text-white'>👈Back</button>
+        </div>):(<div className='w-[75%] sm:w-[100%] sm:rounded-none sm:border-0  flex flex-col overflow-auto  sm:gap-2 border-2 rounded-tr-[4rem] sm:p-2 p-4'>
+        <button onClick={()=> setCurrentPage("dashboard")} className='hidden sm:block font-bold text-black'>Back</button>
             <div className=''>
                 <h2 className=' font-bold text-3xl sm:text-white'>Passwords</h2>
             </div>
