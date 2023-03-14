@@ -118,7 +118,7 @@ function Home()
     return(
         <div className={`   ${login?"w-full mt-0":"w-full mt-0"} h-screen flex  flex-col justify-center items-center  font-poppins  border  sm:bg-white sm:w-full    bg-gray-200 rounded-2xl `}>
             <Toaster position='top-center' reverseOrder />
-        <div className="m-auto shadow-md sm:shadow-none w-[400px]  rounded-2xl  flex flex-col p-4  gap-6">
+        <div className="m-auto shadow-md sm:shadow-none sm:w-[100%] w-[26%]  rounded-2xl  flex flex-col p-4  gap-6">
             <div className="text-center font-bold text-4xl ">
                 {
                     login?( <h2 className="loginheader"> Login</h2>):(<h2 className=" signupheader text-blue-600">REGISTER</h2> )
@@ -131,7 +131,7 @@ function Home()
             {
             login?(<form  onSubmit={(e)=> {e.preventDefault();
              handlelogin(e)}} method="post">
-            <div className="flex flex-col gap-3 w-full loginsection"> 
+            <div className="flex flex-col gap-5 w-full loginsection"> 
                 <div>
                     <img className='w-[150px] border border-gray-800 rounded-full m-auto h-auto' src={avatar} alt="profile"/>
                 </div>
