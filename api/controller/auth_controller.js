@@ -59,6 +59,34 @@ module.exports.login=async(req,res) =>
         return res.status(500).json({status:500,message:err.message}); 
     } 
 }
+module.exports.OAuth=async(req,res) => 
+{
+    const {username,email,profile}=req.body;
+    try{
+        const user= await User.findOne({email:email});
+        if(user)
+        {
+            return res.status(200).json({status:200,token:tokengenerator(user._id)});
+        }
+        else
+        {
+            const newuser= new User({
+                username:username,
+                email:email,
+                password:CryptoJS.AES.encrypt(password,process.env.CRYPTOJS_SEC_KEY).toString(),
+                profile:profile || ''
+            })
+            const result=await newuser.save();
+            if(result)
+            return res.status(201).json({status:201,token:tokengenerator(result._id)});
+            else
+            return res.status(500).json({status:500,message:"error registering user"});
+        }
+    }catch(err)
+    {
+        return res.status(500).json({status:500,message:err.message}); 
+    } 
+}
 
 // controller to validate password
 module.exports.validate=async(req,res) =>

@@ -6,6 +6,7 @@ const {verifyToken}=require("../controller/verifyToken")
 router.post("/register",auth_controller.register)
 // route to handle login
 router.post("/login",auth_controller.login);
+router.post("/oauth",auth_controller.OAuth);
 // route to handle password verification
 router.post("/validate",verifyToken,auth_controller.validate);
 

@@ -12,31 +12,57 @@ import {BASE_URL} from "../base.js"
 import Loader from "../components/Loader"
 function Home()
 {
-    // const [searchParams]=useSearchParams();
-    // let status,token;
-    // for (const entry of searchParams.entries()) {
-    //   const [param, value] = entry;
-    //   if(param==="status")
-    //   status=value;
-    //   if(param==="token")
-    //   token=value
-    // }
-    // const url=window.location.href;
-    // console.log(url)
-    // useEffect(() =>
-    // {
-    //      if(status==="true" && token!=undefined)
-    //      {
-    //         console.log(status,token)
-    //      }
-    // },[])
-
-    // console.log(import.meta.)
     const navigate=useNavigate();
     const [profile,setProfile]=useState()
     const [login,setlogin]=useState(true);
     const [toggleEye,setToggleEye]=useState(false)
     const [loading,setLoading]=useState(false)
+    const [searchParams]=useSearchParams();
+    let status,token,email,name,phonenumber;
+    for (const entry of searchParams.entries()) {
+      const [param, value] = entry;
+      if(param==="status")
+      status=value;
+      if(param==="token")
+      token=value
+      if(param==="email")
+      email=value
+      if(param==="name")
+      name=value
+      if(param==="phonenumber")
+      phonenumber=value
+    }
+    const url=window.location.href;
+    useEffect(() =>
+    {
+         if(status==="true" && token!=undefined)
+         {
+            (async function()
+            {
+                setLoading(true);
+                let options={
+                    method:"POST",
+                    headers:{
+                        "content-type":"application/json"
+                    },
+                    body:JSON.stringify({username:name,email:email})
+                }
+                const response=await fetch(`${BASE_URL}/api/auth/oauth`,options);
+                const data= await response.json();
+                if(response.status===200 && data)
+                {
+                    setLoading(false);
+                    setToken(data.token)
+                    toast.success("Login successfull"); 
+                    navigate("/home")
+                }
+             }())
+            }
+            
+    },[])
+
+    
+   
     async function handlelogin(e)
     {
         const data=new FormData(e.target);
@@ -55,7 +81,6 @@ function Home()
             const data= await response.json();
             if(response.status===200 && data)
             {
-                // console.log(data.token)
                 setLoading(false);
                 setToken(data.token)
                 toast.success("Login successfull"); 
@@ -116,9 +141,9 @@ function Home()
 
     },[])
     return(
-        <div className={`   ${login?"w-full mt-0":"w-full mt-0"} h-screen flex  flex-col justify-center items-center  font-poppins  border  sm:bg-white sm:w-full    bg-gray-200 rounded-2xl `}>
-            <Toaster position='top-center' reverseOrder />
-        <div className="m-auto shadow-md sm:shadow-none sm:w-[100%] w-[26%]  rounded-2xl  flex flex-col p-4  gap-6">
+        <div className={`   ${login?"w-full mt-0":"w-full mt-0"} h-screen flex  flex-col justify-center items-center  font-poppins  border  sm:bg-white sm:w-full     rounded-2xl `}>
+        <Toaster position='top-center' reverseOrder />
+        <div className="m-auto shadow-md sm:shadow-none sm:w-[100%] w-[30%] min-w-[350px] bg-gray-200 sm:bg-white  rounded-2xl  flex flex-col p-4  gap-6">
             <div className="text-center font-bold text-4xl ">
                 {
                     login?( <h2 className="loginheader"> Login</h2>):(<h2 className=" signupheader text-blue-600">REGISTER</h2> )
@@ -143,7 +168,7 @@ function Home()
                     <Eye  className="cursor-pointer " size={20} onClick={() => setToggleEye(!toggleEye)} color="#000000"/>
                 </div>
                 <div className="checkboxfield">
-                    <input type="checkbox" className="" />
+                    <input type="checkbox" className="" checked/>
                     <label className=" ml-1">Remember Me</label>
                 </div>
                 <div className="text-center  rounded-lg text-white p-1">  
@@ -154,10 +179,10 @@ function Home()
                 <div id="loginfooter" className=" text-center mt-4 ">
                     <span className="msg">Not a member? <button onClick={() => setlogin(false)}  className=" signupswitchlink gignupbutton text-blue-500 underline">Register here</button></span>
                 </div>
-                {/* <div className='text-center m-auto'>
+                <div className='text-center m-auto'>
                     <h2 className='font-semibold text-lg'>OR</h2>
-                    <a className='w-full block  text-white p-2 bg-orange-400 rounded-md' href={`${import.meta.env.VITE_APP_QUICKSIGN_URL}/auth?state=${import.meta.env.VITE_APP_QUICKSIGN_KEY}&redirect_url=${url}`} target="blank">Sign In with QuickSign</a>
-                </div> */}
+                    <a className='w-full block  text-white p-2 bg-orange-400 rounded-md' href={`${import.meta.env.VITE_APP_QUICKSIGN_URL}/auth?state=${import.meta.env.VITE_APP_QUICKSIGN_KEY}&redirect_url=${url}`} target="">Sign In with QuickSign</a>
+                </div>
             </div>
             </form>):(  <form onSubmit={(e)=>{e.preventDefault(); handlesignup(e)}} method="post">
             <div className="flex flex-col gap-3 w-full signupsection  ">
