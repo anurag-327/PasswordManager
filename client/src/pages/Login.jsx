@@ -8,7 +8,7 @@ import { valiateLogin,validateSignup } from '../helper/validate';
 import { setToBase64 } from '../helper/profileImageHandler';
 import { getToken ,setToken} from '../helper/tokenHandler';
 import { Eye } from 'phosphor-react';
-import {BASE_URL} from "../base.js"
+import {BASE_URL,QUICKSIGN_KEY,QUICKSIGN_URL} from "../base.js"
 import Loader from "../components/Loader"
 function Home()
 {
@@ -181,7 +181,7 @@ function Home()
                 </div>
                 <div className='text-center m-auto'>
                     <h2 className='font-semibold text-lg'>OR</h2>
-                    <a className='w-full block  text-white p-2 bg-orange-400 rounded-md' href={`${import.meta.env.VITE_APP_QUICKSIGN_URL}/auth?state=${import.meta.env.VITE_APP_QUICKSIGN_KEY}&redirect_url=${url}`} target="">Sign In with QuickSign</a>
+                    <a className='w-full block  text-white p-2 bg-orange-400 rounded-md' href={`${QUICKSIGN_URL}/auth?state=${QUICKSIGN_KEY}&redirect_url=${url}`} target="">Sign In with QuickSign</a>
                 </div>
             </div>
             </form>):(  <form onSubmit={(e)=>{e.preventDefault(); handlesignup(e)}} method="post">
