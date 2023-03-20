@@ -52,9 +52,9 @@ function Dashboard()
                  <h2 className=' text-center font-semibold'>Add a New Password</h2>
             </button>
             {
-            addPasswordBox &&(<div className='w-[400px] md:hidden lg:hidden xl:hidden sm:max-w-[400px] sm:w-[100%] sm:p-1 p-5 border-2 border-gray-300 rounded-lg m-auto'>
+            addPasswordBox &&(<div className='w-[400px] md:hidden lg:hidden xl:hidden 2xl:hidden  sm:max-w-[400px] sm:w-[100%] sm:p-1 p-5 border-2 border-gray-300 rounded-lg m-auto'>
             <div>
-            <button  onClick={() => setAddPasswordBox(false)} className='float-right '><X size={30} color="#ffffff" /></button>
+            <button  onClick={() => setAddPasswordBox(false)} className='float-right '><X size={30} color="#000000" /></button>
             </div>
             <form onSubmit={(e) => { e.preventDefault();handleadd(e)}} method="POST" className='flex flex-col gap-2 sm:mt-5 w-full  p-3'>
                 <input autoComplete='off' autoCorrect='off' type="text" name="title" className='p-2 bg-gray-100 rounded-md border-2 border-gray-400 outline-none' placeholder='Title' />
