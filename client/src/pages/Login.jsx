@@ -39,6 +39,7 @@ function Home()
          {
             (async function()
             {
+                console.log("hii")
                 setLoading(true);
                 let options={
                     method:"POST",

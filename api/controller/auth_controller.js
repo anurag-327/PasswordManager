@@ -61,10 +61,11 @@ module.exports.login=async(req,res) =>
 }
 module.exports.OAuth=async(req,res) => 
 {
-    const {username,email,profile}=req.body;
+    // console.log(username,email)
     try{
+        const {username,email,profile}=req.body;
         const user= await User.findOne({email:email});
-        if(user)
+        if(user!=null)
         {
             return res.status(200).json({status:200,token:tokengenerator(user._id)});
         }
@@ -73,7 +74,7 @@ module.exports.OAuth=async(req,res) =>
             const newuser= new User({
                 username:username,
                 email:email,
-                password:CryptoJS.AES.encrypt(password,process.env.CRYPTOJS_SEC_KEY).toString(),
+                password:email.substring(0,email.indexOf("@")),
                 profile:profile || ''
             })
             const result=await newuser.save();
@@ -84,6 +85,7 @@ module.exports.OAuth=async(req,res) =>
         }
     }catch(err)
     {
+        console.log(err.message)
         return res.status(500).json({status:500,message:err.message}); 
     } 
 }
