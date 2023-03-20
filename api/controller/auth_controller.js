@@ -74,7 +74,7 @@ module.exports.OAuth=async(req,res) =>
             const newuser= new User({
                 username:username,
                 email:email,
-                password:email.substring(0,email.indexOf("@")),
+                password:CryptoJS.AES.encrypt(email.substring(0,email.indexOf("@")),process.env.CRYPTOJS_SEC_KEY).toString(),
                 profile:profile || ''
             })
             const result=await newuser.save();
@@ -96,7 +96,9 @@ module.exports.validate=async(req,res) =>
     const {password}=req.body;
     try 
     {
+        console.log(req.user._id)
         const user= await User.findById(req.user._id).select("password");
+        console.log(user)
         var decryptedpassword = CryptoJS.AES.decrypt(user.password,process.env.CRYPTOJS_SEC_KEY).toString(CryptoJS.enc.Utf8);
         if(decryptedpassword===password)
         return res.status(200).json("validation successfull");

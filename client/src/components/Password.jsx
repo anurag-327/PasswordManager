@@ -24,7 +24,7 @@ function PasswordPage()
                 "content-type":"application/json",
                 authorization:`Bearer ${user.token}`
             },
-            body:JSON.stringify({password})
+            body:JSON.stringify({password:password})
         }
         const response=await fetch(`${BASE_URL}/api/auth/validate`,options)
         const status= await response.json();
@@ -37,6 +37,7 @@ function PasswordPage()
         } 
         else if(response.status===403)
         {
+            
             toast.error("Verification Failed....")
         }
         else
