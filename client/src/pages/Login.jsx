@@ -143,7 +143,7 @@ function Home()
     return(
         <div className={`   ${login?"w-full mt-0":"w-full mt-0"} h-screen flex flex-col justify-center items-center  font-poppins  border  sm:bg-white sm:w-full     rounded-2xl `}>
         <Toaster position='top-center' reverseOrder />
-        <div className="m-auto  sm:w-[100%] w-[30%] min-w-[350px] bg-white  border-gray-400 border sm:bg-white  rounded-2xl  flex flex-col p-4  gap-6">
+        <div className="m-auto  sm:w-[100%] w-[30%] min-w-[350px] bg-white sm:border-none  border-gray-400 border sm:bg-white  rounded-2xl  flex flex-col p-4  gap-6">
             <div className="text-center font-bold text-4xl ">
                 {
                     login?( <h2 className="loginheader"> Login</h2>):(<h2 className=" signupheader text-blue-600">REGISTER</h2> )
