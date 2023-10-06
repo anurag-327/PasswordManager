@@ -141,16 +141,19 @@ function Home()
 
     },[])
     return(
-        <div className={`   ${login?"w-full mt-0":"w-full mt-0"} h-screen flex  flex-col justify-center items-center  font-poppins  border  sm:bg-white sm:w-full     rounded-2xl `}>
+        <div className={`   ${login?"w-full mt-0":"w-full mt-0"} h-screen flex flex-col justify-center items-center  font-poppins  border  sm:bg-white sm:w-full     rounded-2xl `}>
         <Toaster position='top-center' reverseOrder />
-        <div className="m-auto shadow-md sm:shadow-none sm:w-[100%] w-[30%] min-w-[350px] bg-gray-200 sm:bg-white  rounded-2xl  flex flex-col p-4  gap-6">
+        <div className="m-auto  sm:w-[100%] w-[30%] min-w-[350px] bg-white  border-gray-400 border sm:bg-white  rounded-2xl  flex flex-col p-4  gap-6">
             <div className="text-center font-bold text-4xl ">
                 {
                     login?( <h2 className="loginheader"> Login</h2>):(<h2 className=" signupheader text-blue-600">REGISTER</h2> )
                 }                      
                 {
                     login?( <span className="m-auto text-sm text-gray-600">Welcome Back...</span>):(<span className=" m-auto text-sm text-gray-600">Secure by connecting with us</span> )
-                }                      
+                }   
+                {
+                    
+                }                   
             </div>
             
             {
@@ -158,7 +161,10 @@ function Home()
              handlelogin(e)}} method="post">
             <div className="flex flex-col gap-5 w-full loginsection"> 
                 <div>
-                    <img className='w-[150px] border border-gray-800 rounded-full m-auto h-auto' src={avatar} alt="profile"/>
+                    <img className='w-[100px] border border-gray-800 rounded-full m-auto h-auto' src={avatar} alt="profile"/>
+                    <div className='text-lg text-center mt-3 font-light'>
+                        A vault to store all your credentials
+                    </div>
                 </div>
                 <div> 
                     <input type="text" autoComplete='off' autoCorrect='off'  className="username border-2 w-full rounded-md p-2  outline-none" name="username" placeholder="Username"/>
@@ -173,24 +179,27 @@ function Home()
                 </div>
                 <div className="text-center  rounded-lg text-white p-1">  
                     {
-                        loading?( <Loader />):(<button className="signupbutton w-full block  p-2 bg-blue-700 rounded-md">Login</button>)
+                        loading?( <Loader />):(<button className="signupbutton w-full block  px-2 py-3 text-lg bg-blue-700 rounded-md">Login</button>)
                     }    
                 </div>
-                <div id="loginfooter" className=" text-center mt-4 ">
+                <div id="loginfooter" className=" text-center mt-2 ">
                     <span className="msg">Not a member? <button onClick={() => setlogin(false)}  className=" signupswitchlink gignupbutton text-blue-500 underline">Register here</button></span>
                 </div>
-                <div className='text-center m-auto'>
+                <div className='text-center m-auto w-full mb-4'>
                     <h2 className='font-semibold text-lg'>OR</h2>
-                    <a className='w-full block  text-white p-2 bg-orange-400 rounded-md' href={`${QUICKSIGN_URL}/auth?state=${QUICKSIGN_KEY}&redirect_url=${url}`} target="">Sign In with QuickSign</a>
+                    <a className='w-full  text-white py-2 flex gap-2 justify-center items-center bg-green-600 px-8 rounded-md' href={`${QUICKSIGN_URL}/auth?state=${QUICKSIGN_KEY}&redirect_url=${url}`} target=""><img src="https://github.com/anurag-327/QuickSign/assets/98267696/41b1ac46-5372-40c1-b9ce-7beb15ba4659" alt="logo"/>Sign In with QuickSign</a> 
                 </div>
             </div>
             </form>):(  <form onSubmit={(e)=>{e.preventDefault(); handlesignup(e)}} method="post">
             <div className="flex flex-col gap-3 w-full signupsection  ">
                 <div>
                     <label htmlFor='profile'>
-                         <img  src={profile || avatar }  className='w-[120px] object-cover border cursor-pointer border-gray-800 rounded-full m-auto h-auto' alt="profile"/>
+                         <img  src={profile || avatar }  className='w-[100px] object-cover border cursor-pointer border-gray-800 rounded-full m-auto h-auto' alt="profile"/>
                     </label>
                     <input onChange={uploadprofile} className='hidden' id="profile" name="profile" type="file"></input>
+                    <div className='text-lg text-center mt-3 font-light'>
+                        A vault to store all your credentials
+                    </div>
                 </div>
                 <div> 
                     <input type="text" autoCorrect='off'  className="namefield  border-2 w-full rounded-md p-2 outline-none" name="username" placeholder="Name"/>
@@ -211,11 +220,15 @@ function Home()
                 </div>
                 <div className="text-center  rounded-lg text-white mt-2 p-1">  
                 {
-                    loading?(<Loader />):(<button className="signupbutton w-full block  p-2 bg-blue-700 rounded-md">REGISTER</button>)
+                    loading?(<Loader />):(<button className="signupbutton w-full block  px-2 py-3 text-lg bg-blue-700 rounded-md">REGISTER</button>)
                 }         
                 </div>
-                <div id="loginfooter" className=" text-center mt-4 ">
+                <div id="loginfooter" className=" text-center mt-2 ">
                     <span className="msg">Already a member ? <button onClick={() => setlogin(true)}  className=" signupswitchlink gignupbutton text-blue-500 underline">Login</button></span>
+                </div>
+                <div className='text-center w-full m-auto mb-4'>
+                    <h2 className='font-semibold text-lg'>OR</h2>
+                    <a className='w-full  text-white py-2 flex gap-2 justify-center items-center bg-green-600 px-8 rounded-md' href={`${QUICKSIGN_URL}/auth?state=${QUICKSIGN_KEY}&redirect_url=${url}`} target=""><img src="https://github.com/anurag-327/QuickSign/assets/98267696/41b1ac46-5372-40c1-b9ce-7beb15ba4659" alt="logo"/>Sign In with QuickSign</a> 
                 </div>
             </div>
             </form>)
