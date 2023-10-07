@@ -16,7 +16,7 @@ function Sidebar()
      <Toaster position='top-center' reverseOrder />
       <div className='w-[100%] relative  flex flex-col text-white rounded-tl-[4rem] aspect-square bg-blue-800'>
         <div className=' flex gap-2 relative  m-auto items-center '>
-               <Keyhole size={44} color="#f3eded" />
+               <Vault size={44} color="#f3eded" />
                <h2 className='inline-block font-bold'> MY Vault</h2>    
         </div>
         <div className=' m-auto flex flex-col justify-center items-center gap-2'>

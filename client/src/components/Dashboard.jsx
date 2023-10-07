@@ -41,7 +41,7 @@ function Dashboard()
     }
     return(
     <>
-        <div className='w-[75%] sm:w-full  flex flex-col  overflow-hidden overflow-x-hidden gap- border sm:border-none rounded-tr-[4rem] '>
+        <div className='w-[75%] sm:w-full min-h-[90vh] flex flex-col  overflow-hidden overflow-x-hidden gap- border sm:border-none rounded-tr-[4rem] '>
         <Toaster position='top-center' reverseOrder />
         <div className=''>
             <h2 className=' font-bold text-3xl text-center'>DashBoard</h2>

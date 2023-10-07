@@ -52,20 +52,8 @@ function PasswordPage()
    <Toaster position='top-center' reverseOrder />
     
     
-        {
-            openVerification ? (<div className='absolute top-0 left-0 w-[100%] sm:h-[100vh]  h-[100%] bg-[#333] opacity-95 z-10'>
-            <div>
-                <button className=' absolute right-[40px] top-[30px] font-bold' onClick={() => {setOpenVerification(false); setCurrentPage("dashboard")}}><X  size={44} color="#ffffff" /></button>
-            </div>
-                <form onSubmit={(e) => { e.preventDefault();handleverification(e)}} method="POST" className=' w-[300px]  rounded-md bg-white absolute sm:top-[50%] top-[40%] bottom-30%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex flex-col gap-3  p-3'>
-                    <input autoComplete='off' required autoCorrect='off' type="password" name="password" className='p-2 bg-gray-100 rounded-md border-2 outline-none  border-red-600' placeholder='password' />
-                    {
-                        loading?(<div className='flex justify-center items-center'><Loader  /></div>):( <button className='bg-blue-600 text-white rounded-md p-2'>Verify</button>)
-                    }
-                   
-                    <h2 className=' text-center text-red-600'>! Password Verification is required to access your passwords</h2>
-                </form>
-        </div>):(<div className='w-[75%] sm:w-[100%] sm:rounded-none sm:border-0  flex flex-col overflow-auto  sm:gap-2 border-2 rounded-tr-[4rem] sm:p-2 p-4'>
+    
+            <div className='w-[75%] sm:w-[100%] sm:rounded-none sm:border-0  flex flex-col overflow-auto  sm:gap-2 border-2 rounded-tr-[4rem] sm:p-2 p-4'>
         <button onClick={()=> setCurrentPage("dashboard")} className='hidden sm:block font-bold text-black'>Back</button>
             <div className=''>
                 <h2 className=' font-bold text-3xl sm:text-white'>Passwords</h2>
@@ -77,8 +65,7 @@ function PasswordPage()
                 }
                  
             </div>
-        </div>)
-        }
+        </div>
     
     </>
     )
