@@ -1,5 +1,9 @@
 // export const BASE_URL = "http://localhost:8000"
 export const BASE_URL = "https://vault-qlb9.onrender.com"
-// export const QUICKSIGN_URL="https://localhost:5173"
+// export const QUICKSIGN_URL="http://localhost:5173"
 export const QUICKSIGN_URL="https://quick-sign.vercel.app"
-export const QUICKSIGN_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDE1ZjlmZjMzMTdjZjgxNGE3ZjI5YTYiLCJpYXQiOjE2NzkxNjE4Njd9.G95ddr3telwGEjRZBeVLKxLW4kDAWcKC0uRKC6mTHak"
+export const QUICKSIGN_API_URL="https://quicksign-bq48.onrender.com"
+// export const QUICKSIGN_API_URL="http://localhost:5000"
+
+export const clientId="6527ef3b3a401c5dcd7e545a"
+export const clientSecret="8b716ab85ae64d47a9db16cc0944f266"

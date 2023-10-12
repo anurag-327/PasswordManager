@@ -8,7 +8,7 @@ import { valiateLogin,validateSignup } from '../helper/validate';
 import { setToBase64 } from '../helper/profileImageHandler';
 import { getToken ,setToken} from '../helper/tokenHandler';
 import { Eye } from 'phosphor-react';
-import {BASE_URL,QUICKSIGN_KEY,QUICKSIGN_URL} from "../base.js"
+import {BASE_URL,clientId,clientSecret,QUICKSIGN_API_URL,QUICKSIGN_URL} from "../base.js"
 import Loader from "../components/Loader"
 function Home()
 {
@@ -18,19 +18,13 @@ function Home()
     const [toggleEye,setToggleEye]=useState(false)
     const [loading,setLoading]=useState(false)
     const [searchParams]=useSearchParams();
-    let status,token,email,name,phonenumber;
+    let status,token;
     for (const entry of searchParams.entries()) {
       const [param, value] = entry;
       if(param==="status")
       status=value;
       if(param==="token")
       token=value
-      if(param==="email")
-      email=value
-      if(param==="name")
-      name=value
-      if(param==="phonenumber")
-      phonenumber=value
     }
     const url=window.location.href;
     useEffect(() =>
@@ -41,20 +35,39 @@ function Home()
             {
                 setLoading(true);
                 let options={
-                    method:"POST",
+                    method:"GET",
                     headers:{
-                        "content-type":"application/json"
+                        "content-type":"application/json",
+                        "authorization":`Bearer ${token}`
                     },
-                    body:JSON.stringify({username:name,email:email})
                 }
-                const response=await fetch(`${BASE_URL}/api/auth/oauth`,options);
+                const response=await fetch(`${QUICKSIGN_API_URL}/api/data/getuser`,options);
                 const data= await response.json();
                 if(response.status===200 && data)
                 {
-                    setLoading(false);
-                    setToken(data.token)
-                    toast.success("Login successfull"); 
-                    navigate("/home")
+                    console.log(data)
+                    
+                    let options={
+                      method:"POST",
+                      headers:{
+                        "content-type":"application/json"
+                      },
+                      body:JSON.stringify({username:data.data.name,email:data.data.email,profile:data.data.profile})
+                    }
+                    const response=await fetch(`${BASE_URL}/api/auth/oauth`,options);
+                    const result= await response.json();
+                    if(response.status===200 && result)
+                    {
+                      setLoading(false);
+                      setToken(result.token)
+                      toast.success("Login successfull"); 
+                      navigate("/home")
+                    }
+                    else
+                    {
+                        setLoading(false);
+                        toast("failed to verify!")
+                    }
                 }
              }())
             }
@@ -187,7 +200,7 @@ function Home()
                 </div>
                 <div className='text-center m-auto w-full mb-4'>
                     <h2 className='font-semibold text-lg'>OR</h2>
-                    <a className='w-full  text-white py-2 flex gap-2 justify-center items-center bg-green-600 px-8 rounded-md' href={`${QUICKSIGN_URL}/auth?state=${QUICKSIGN_KEY}&redirect_url=${url}`} target=""><img src="https://github.com/anurag-327/QuickSign/assets/98267696/41b1ac46-5372-40c1-b9ce-7beb15ba4659" alt="logo"/>Sign In with QuickSign</a> 
+                    <a className='w-full  text-white py-2 flex gap-2 justify-center items-center bg-green-600 px-8 rounded-md' href={`${QUICKSIGN_URL}/auth?clientId=${clientId}&clientSecret=${clientSecret}&redirect_url=${url}`} target=""><img src="https://github.com/anurag-327/QuickSign/assets/98267696/41b1ac46-5372-40c1-b9ce-7beb15ba4659" alt="logo"/>Sign In with QuickSign</a> 
                 </div>
             </div>
             </form>):(  <form onSubmit={(e)=>{e.preventDefault(); handlesignup(e)}} method="post">
@@ -228,7 +241,7 @@ function Home()
                 </div>
                 <div className='text-center w-full m-auto mb-4'>
                     <h2 className='font-semibold text-lg'>OR</h2>
-                    <a className='w-full  text-white py-2 flex gap-2 justify-center items-center bg-green-600 px-8 rounded-md' href={`${QUICKSIGN_URL}/auth?state=${QUICKSIGN_KEY}&redirect_url=${url}`} target=""><img src="https://github.com/anurag-327/QuickSign/assets/98267696/41b1ac46-5372-40c1-b9ce-7beb15ba4659" alt="logo"/>Sign In with QuickSign</a> 
+                    <a className='w-full  text-white py-2 flex gap-2 justify-center items-center bg-green-600 px-8 rounded-md' href={`${QUICKSIGN_URL}/auth?clientId=${clientId}&clientSecret=${clientSecret}&redirect_url=${url}`} target=""><img src="https://github.com/anurag-327/QuickSign/assets/98267696/41b1ac46-5372-40c1-b9ce-7beb15ba4659" alt="logo"/>Sign In with QuickSign</a> 
                 </div>
             </div>
             </form>)
